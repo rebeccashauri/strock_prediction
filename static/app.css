@@ -165,6 +165,7 @@ input:focus,select:focus{border-color:var(--purple);box-shadow:var(--glow-blue);
 }
 .primary-button:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 14px 28px rgba(138,92,246,.45)}
 .primary-button span{font-size:17px;margin-left:10px}
+.form-actions{display:flex;align-items:center;gap:10px}.reset-button{border:1px solid #dce3ed;color:#687995;background:#fff;border-radius:8px;padding:11px 14px;font-size:12px;font-weight:700;text-decoration:none}.reset-button:hover{border-color:#9eafd0;background:#f7f9fc}
 
 /* ---------- RESULT CARD (AMAZING VERSION) ---------- */
 .result-column{display:grid;align-content:start;gap:15px}

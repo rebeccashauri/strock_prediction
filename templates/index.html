@@ -56,7 +56,7 @@
               <label>BMI <span class="unit">kg/m²</span><input name="bmi" type="number" min="8" max="80" step="0.1" value="{{ form_data.get('bmi', '') }}" placeholder="26.4" required></label>
               <label>Smoking history<select name="smoking_status">{% for item in options.smoking_status %}<option {% if form_data.get('smoking_status') == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
             </div></div>
-            <div class="form-footer"><span><i class="lock">⌑</i> Data is used for this assessment only</span><button class="primary-button" type="submit">Run risk assessment <span>→</span></button></div>
+            <div class="form-footer"><span><i class="lock">⌑</i> Data is used for this assessment only</span><div class="form-actions"><a class="reset-button" href="{{ url_for('dashboard') }}">↻ Refresh form</a><button class="primary-button" type="submit">Run risk assessment <span>→</span></button></div></div>
           </form>
         </section>
 
