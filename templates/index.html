@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeuroWatch | Stroke risk command center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">+</span><span>Neuro<span class="brand-accent">Watch</span></span></div>
+      <div class="sidebar-label">Clinical workspace</div>
+      <nav>
+        <a class="nav-item active" href="#screening"><span class="nav-icon">◈</span> Risk screening</a>
+        <a class="nav-item" href="#model"><span class="nav-icon">⌁</span> Model health</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="status-dot"><span></span> Model online</div>
+        <div class="user-chip"><div class="avatar">DR</div><div><strong>Dr. Rivera</strong><small>Neurology · North wing</small></div><span class="more">···</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><div><div class="eyebrow">NORTHSTAR MEDICAL CENTER <span>•</span> Triage suite</div><h1>Stroke risk command center</h1></div><div class="top-actions"><span class="live"><i></i> Live workspace</span><button class="icon-button" aria-label="Notifications">♢<em>3</em></button></div></header>
+
+      <section class="metric-row" aria-label="Unit overview">
+        <div class="metric"><div class="metric-icon blue">◉</div><div><span>Today's screenings</span><strong>18</strong><small>+4 from yesterday</small></div></div>
+        <div class="metric"><div class="metric-icon coral">!</div><div><span>Needs review</span><strong>04</strong><small>2 high-priority cases</small></div></div>
+        <div class="metric"><div class="metric-icon green">↗</div><div><span>Model sensitivity</span><strong>86.4%</strong><small>Based on validation set</small></div></div>
+        <div class="metric model-metric" id="model"><div class="pulse-ring"><span></span></div><div><span>Model status</span><strong>Ready</strong><small>Last checked just now</small></div></div>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="panel screening-panel" id="screening">
+          <div class="panel-heading"><div><span class="section-kicker">NEW ASSESSMENT</span><h2>Patient screening</h2><p>Enter current observations to generate a risk signal.</p></div><span class="secure">⌁ HIPAA workspace</span></div>
+          {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+          <form method="post" class="screening-form">
+            <div class="form-section"><div class="form-section-title"><span>01</span><div><strong>Patient context</strong><small>Basic identifiers and care location</small></div></div><div class="form-grid three">
+              <label>Care department<select name="department"><option>Emergency medicine</option><option>Neurology</option><option>Inpatient ward</option><option>Outpatient clinic</option></select></label>
+              <label>Age <span class="unit">years</span><input name="age" type="number" min="1" max="120" step="1" value="{{ form_data.get('age', '') }}" placeholder="67" required></label>
+            </div></div>
+            <div class="form-section"><div class="form-section-title"><span>02</span><div><strong>Clinical profile</strong><small>Known history and current observations</small></div></div><div class="form-grid three">
+              <label>Biological sex<select name="gender">{% for item in options.gender %}<option {% if form_data.get('gender') == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+              <label>Hypertension<select name="hypertension"><option value="0">No</option><option value="1" {% if form_data.get('hypertension') == '1' %}selected{% endif %}>Yes</option></select></label>
+              <label>Heart disease<select name="heart_disease"><option value="0">No</option><option value="1" {% if form_data.get('heart_disease') == '1' %}selected{% endif %}>Yes</option></select></label>
+              <label>Ever married<select name="ever_married">{% for item in options.ever_married %}<option {% if form_data.get('ever_married') == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+              <label>Work type<select name="work_type">{% for item in options.work_type %}<option {% if form_data.get('work_type') == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+              <label>Residence<select name="Residence_type">{% for item in options.Residence_type %}<option {% if form_data.get('Residence_type') == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+            </div></div>
+            <div class="form-section"><div class="form-section-title"><span>03</span><div><strong>Vitals & habits</strong><small>Use the latest recorded measurements</small></div></div><div class="form-grid three">
+              <label>Avg. glucose <span class="unit">mg/dL</span><input name="avg_glucose_level" type="number" min="20" max="500" step="0.01" value="{{ form_data.get('avg_glucose_level', '') }}" placeholder="112.40" required></label>
+              <label>BMI <span class="unit">kg/m²</span><input name="bmi" type="number" min="8" max="80" step="0.1" value="{{ form_data.get('bmi', '') }}" placeholder="26.4" required></label>
+              <label>Smoking history<select name="smoking_status">{% for item in options.smoking_status %}<option {% if form_data.get('smoking_status') == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+            </div></div>
+            <div class="form-footer"><span><i class="lock">⌑</i> Data is used for this assessment only</span><button class="primary-button" type="submit">Run risk assessment <span>→</span></button></div>
+          </form>
+        </section>
+
+        <aside class="result-column">
+          <section class="result-card {% if result %}has-result {{ result.tone }}{% endif %}">
+            {% if result %}
+              <div class="result-top"><span class="section-kicker">ASSESSMENT COMPLETE</span><span class="result-time">Just now</span></div><div class="result-identity"><div class="mini-avatar">NW</div><div><strong>Clinical screening</strong><small>{{ result.department }}</small></div></div>
+              <div class="score-wrap"><div class="score-ring" style="--score: {{ result.score * 3.6 }}deg"><div><strong>{{ result.score }}<sup>%</sup></strong><small>estimated risk</small></div></div></div>
+              <div class="risk-label"><span class="risk-dot"></span><strong>{{ result.label }}</strong><span>model signal</span></div><div class="recommendation"><span>Next best action</span><strong>{{ result.recommendation }}</strong></div><p class="disclaimer">This is a decision-support signal, not a diagnosis. Confirm with clinical assessment and local stroke protocol.</p>
+            {% else %}
+              <div class="empty-result"><div class="empty-orbit"><span>+</span></div><span class="section-kicker">AWAITING PATIENT DATA</span><h2>Your assessment<br>will appear here</h2><p>Complete the screening form to see a probability signal and suggested next action.</p><div class="empty-line"></div><small>Powered by your trained XGBoost model</small></div>
+            {% endif %}
+          </section>
+          <section class="protocol-card"><div class="protocol-icon">✦</div><div><span class="section-kicker">CARE NOTE</span><strong>FAST protocol reminder</strong><p>Face drooping · Arm weakness · Speech difficulty · Time to call for help</p></div></section>
+        </aside>
+      </div>
+
+      <footer>NeuroWatch decision support <span>•</span> For trained clinical teams only <span>•</span> v1.0.0</footer>
+    </main>
+  </div>
+</body>
+</html>
