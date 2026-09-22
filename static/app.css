@@ -79,14 +79,14 @@ nav{display:grid;gap:8px}
 
 /* ---------- MAIN ---------- */
 .main-content{flex:1;max-width:1500px;margin:auto;padding:34px 46px 26px}
-.topbar{display:flex;justify-content:space-between;align-items:flex-start}
-.eyebrow{color:#3a4568;margin:3px 0 10px}
-.eyebrow span{color:var(--purple);padding:0 5px}
-.topbar h1{font:700 29px 'Space Grotesk';letter-spacing:-1px;color:var(--navy)}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;background:var(--navy);border-radius:12px;padding:22px 24px;color:#fff}
+.eyebrow{color:#b9c9df;margin:3px 0 10px}
+.eyebrow span{color:var(--mint);padding:0 5px}
+.topbar h1{font:700 29px 'Space Grotesk';letter-spacing:-1px;color:#fff}
 .top-actions{display:flex;gap:22px;align-items:center}
-.live{font-size:12px;color:#33406b;background:var(--glass);padding:7px 12px;border-radius:20px;backdrop-filter:blur(8px)}
+.live{font-size:12px;color:#fff;background:var(--glass);padding:7px 12px;border-radius:20px;backdrop-filter:blur(8px)}
 .live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mint);margin-right:6px}
-.icon-button{border:0;background:var(--glass);color:var(--navy);font-size:20px;position:relative;width:40px;height:40px;border-radius:12px;cursor:pointer;transition:.2s}
+.icon-button{border:0;background:var(--glass);color:#fff;font-size:20px;position:relative;width:40px;height:40px;border-radius:12px;cursor:pointer;transition:.2s}
 .icon-button:hover{background:var(--glass-strong);transform:translateY(-2px)}
 .icon-button em{font:600 9px 'DM Sans';position:absolute;background:var(--coral);color:white;border-radius:50%;padding:3px 5px;top:-4px;right:-4px}
 
