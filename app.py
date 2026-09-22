@@ -3,7 +3,7 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, session, url_for
 from sklearn.preprocessing import LabelEncoder
 
 
@@ -39,6 +39,7 @@ def build_encoders():
 
 ENCODERS = build_encoders()
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "neurowatch-local-session-key"
 
 
 def form_options():
@@ -85,9 +86,10 @@ def risk_profile(probability):
 
 @app.route("/", methods=["GET", "POST"])
 def dashboard():
-    result = None
+    assessment = session.pop("assessment", None)
+    result = assessment["result"] if assessment else None
     error = None
-    form_data = {}
+    form_data = assessment["form_data"] if assessment else {}
     if request.method == "POST":
         form_data = request.form.to_dict()
         try:
@@ -102,6 +104,8 @@ def dashboard():
                 "recommendation": recommendation,
                 "department": request.form.get("department", "Emergency medicine"),
             }
+            session["assessment"] = {"result": result, "form_data": form_data}
+            return redirect(url_for("dashboard"))
         except (KeyError, TypeError, ValueError) as exc:
             error = f"Please check the clinical fields and try again. ({exc})"
     return render_template("index.html", result=result, error=error, options=form_options(), form_data=form_data)

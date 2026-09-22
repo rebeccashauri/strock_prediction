@@ -67,7 +67,7 @@
               <div class="score-wrap"><div class="score-ring" style="--score: {{ result.score * 3.6 }}deg"><div><strong>{{ result.score }}<sup>%</sup></strong><small>estimated risk</small></div></div></div>
               <div class="risk-label"><span class="risk-dot"></span><strong>{{ result.label }}</strong><span>model signal</span></div><div class="recommendation"><span>Next best action</span><strong>{{ result.recommendation }}</strong></div><p class="disclaimer">This is a decision-support signal, not a diagnosis. Confirm with clinical assessment and local stroke protocol.</p>
             {% else %}
-              <div class="empty-result"><div class="empty-orbit"><span>+</span></div><span class="section-kicker">AWAITING PATIENT DATA</span><h2>Your assessment<br>will appear here</h2><p>Complete the screening form to see a probability signal and suggested next action.</p><div class="empty-line"></div><small>Powered by your trained XGBoost model</small></div>
+              <div class="empty-result"><div class="empty-orbit"><span>+</span></div><span class="section-kicker">SCREENING RESET</span><h2>0.0<sup>%</sup></h2><p>Complete the screening form to run a new assessment.</p><div class="empty-line"></div><small>Ready for a fresh patient screening</small></div>
             {% endif %}
           </section>
           <section class="protocol-card"><div class="protocol-icon">✦</div><div><span class="section-kicker">CARE NOTE</span><strong>FAST protocol reminder</strong><p>Face drooping · Arm weakness · Speech difficulty · Time to call for help</p></div></section>
