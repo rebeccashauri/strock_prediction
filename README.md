@@ -61,6 +61,15 @@ python app.py
 
 Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in a browser. The health endpoint is available at [http://127.0.0.1:5000/health](http://127.0.0.1:5000/health).
 
+## Live deployment
+
+Open the hosted application at [https://ai-based-strock-prediction.onrender.com/](https://ai-based-strock-prediction.onrender.com/).
+
+For Render, use:
+
+- Build command: `pip install -r requirements.txt`
+- Start command: `gunicorn --bind 0.0.0.0:$PORT app:app`
+
 ## Model notes
 
 The application uses ten features: gender, age, hypertension, heart disease, marital status, work type, residence type, average glucose level, BMI, and smoking status. Categorical values are encoded from the source data, and the `id` column is removed before scaling and prediction. The training script uses a stratified split and cross-validated sigmoid calibration so the displayed probability is more useful for screening than the default uncalibrated classifier score.
